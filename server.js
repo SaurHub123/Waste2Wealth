@@ -11,7 +11,7 @@ const corsOrigin = {
   credentials: true,
   optionSuccessStatus: 200,
 };
-app.use(cors(corsOrigin));
+app.use(cors({origin:"*"}));
 
 // Use bodyparser for request
 // use morgan for logging
