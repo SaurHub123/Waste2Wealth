@@ -13,15 +13,11 @@ const corsOrigin = {
 };
 app.use(cors(corsOrigin));
 
-// SendMail("Saurabhkumar26121999@gmail.com","OTP Verification 2451","Hello User Your OTP is 2451 please enter OTP to verify it's You. \n Please Don't Share OTP With Anyone. Waste2Wealth Never Ask you For OTP.");
-
 // Use bodyparser for request
 // use morgan for logging
 // use authentication middleware for protected routes
 
 connectDB();
-
-console.log("Hello ");
 
 const port = process.env.PORT || 5003;
 
