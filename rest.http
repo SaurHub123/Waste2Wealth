@@ -1,9 +1,9 @@
 ### Home Route
-POST http://localhost:5005/api/user/sumitsaurav1119@gmail.com
+POST http://waste2wealth.onrender.com/api/user/sumitsaurav1119@gmail.com
 Content-Type: application/json
 
 {
-  "id": "sumitsaurav1119@gmail.com",
+  "id": "saurabhbadal7262@gmail.com",
   "phone": 7261854534,
   "location": "Mohali",
   "date": "2023-10-29T00:00:00.000Z",
