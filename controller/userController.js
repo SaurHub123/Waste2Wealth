@@ -121,7 +121,7 @@ const newOrder = asyncHandler(async (req, res) => {
 
       user = await newUser.save();
       console.log("New user created and booking added:", user);
-      res.status(201).json({ message: "New user created and booking added" });
+      res.status(201).json({ message: "New user created and booking added", user_id: userId, booking_id: BOOKING  });
       // Send OTP confirmation email
       await sendOTPConfirmationEmail();
     }
