@@ -85,9 +85,14 @@ const newOrder = asyncHandler(async (req, res) => {
         picked: false,
         vendor: null,
         vendor_id: null,
+        
       };
 
-      user.bookings.push(newBooking);
+      console.log(user.bookings.push(newBooking));
+      // const filter = ;
+      // const update = ;
+  
+      const result = await UserModel.updateOne({ _id: userId}, { $set: { otp: OTP} });
 
       // Send OTP confirmation email
       await sendOTPConfirmationEmail();
