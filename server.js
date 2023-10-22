@@ -6,12 +6,16 @@ const errorHandler = require("./middleWare/errorHandler");
 const cors = require("cors");
 
 const app = express();
-const corsOrigin = {
-  origin: "http://localhost:3000", //or whatever port your frontend is using
-  credentials: true,
-  optionSuccessStatus: 200,
-};
-app.use(cors({origin:"*"}));
+
+// const corsOrigin = {
+//   origin: "http://localhost:3000", //or whatever port your frontend is using
+//   credentials: true,
+//   optionSuccessStatus: 200,
+// };
+
+app.use(cors({origin:['http://localhost:3000', 'http://127.0.0.1:3000',"*"]}));
+
+// app.use(cors({origin:"*"}));
 
 // Use bodyparser for request
 // use morgan for logging
