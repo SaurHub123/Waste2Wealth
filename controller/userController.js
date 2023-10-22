@@ -11,33 +11,30 @@ function generateOTP() {
   }
 
   return otp;
-};
-
+}
 
 async function updateUserAndOrderVerification(userId, bookingId) {
   try {
-    const filter = { _id: userId,'bookings.booking_id': bookingId };
-    const update = { $set: { otp: null, 'bookings.$.verify': true } };
+    const filter = { _id: userId, "bookings.booking_id": bookingId };
+    const update = { $set: { otp: null, "bookings.$.verify": true } };
 
     const result = await UserModel.updateOne(filter, update);
 
-    console.log("Result :",result);
+    console.log("Result :", result);
 
     if (result.matchedCount == 1) {
       // Update was successful
-      console.log('User and order verification updated:', userId, bookingId);
+      console.log("User and order verification updated:", userId, bookingId);
       return true;
     } else {
-      console.log('User or booking not found');
+      console.log("User or booking not found");
       return false;
     }
   } catch (error) {
-    console.error('Error updating user and order verification:', error);
+    console.error("Error updating user and order verification:", error);
     throw error; // Handle the error as needed
   }
-};
-
-
+}
 
 const newOrder = asyncHandler(async (req, res) => {
   try {
@@ -68,7 +65,7 @@ const newOrder = asyncHandler(async (req, res) => {
       
       The Waste2Wealth Team
       
-              `;// Email text
+              `; // Email text
 
       await sendMail(userId, subject, text);
     };
@@ -129,9 +126,6 @@ const newOrder = asyncHandler(async (req, res) => {
   }
 });
 
-
-
-
 const saveOrder = asyncHandler(async (req, res) => {
   try {
     const userId = req.params.id;
@@ -169,15 +163,15 @@ const saveOrder = asyncHandler(async (req, res) => {
 
     try {
       const newOrder = await OrderModel.create({
-        user_id:userId,
-        _id:orderid,
+        user_id: userId,
+        _id: orderid,
         booking_id,
         phone: user.phone,
         location: bookingFound.location,
         date: bookingFound.date,
         hour: bookingFound.hour,
       });
-      const stat=await updateUserAndOrderVerification(userId, booking_id);
+      const stat = await updateUserAndOrderVerification(userId, booking_id);
       if (stat) {
         const subject = `Confirmation of Your Order (Order ID: ${booking_id})`;
         const text = `Dear,
@@ -195,22 +189,26 @@ const saveOrder = asyncHandler(async (req, res) => {
         The Waste2Wealth Team`; // Email text
 
         await sendMail(userId, subject, text);
-        res.status(201).json({ message: "Order created successfully", newOrder });
+        res
+          .status(201)
+          .json({ message: "Order created successfully", newOrder });
       } else {
         console.log("Unable to Update OTP to null and booking to true");
-        res.status(304).json({ message: "Unable to Create New Order in user Order" });
+        res
+          .status(304)
+          .json({ message: "Unable to Create New Order in user Order" });
       }
     } catch (error) {
       console.log("Error:", error);
-      res.status(304).json({ message: "error While Creating New Order in user Order" });
+      res
+        .status(304)
+        .json({ message: "error While Creating New Order in user Order" });
     }
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
-
 
 const getOrders = asyncHandler(async (req, res) => {
   try {
@@ -230,7 +228,6 @@ const getOrders = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
 
 const deleteOrder = asyncHandler(async (req, res) => {
   try {
@@ -276,11 +273,15 @@ const deleteOrder = asyncHandler(async (req, res) => {
           res.status(204).json({ message: "Order deleted successfully" });
         } else {
           console.log("Unable to update OTP to null and booking to true");
-          res.status(304).json({ message: "Unable to update order verification" });
+          res
+            .status(304)
+            .json({ message: "Unable to update order verification" });
         }
       } else {
         console.log("Order not found in orders collection.");
-        res.status(404).json({ message: "Order not found in orders collection" });
+        res
+          .status(404)
+          .json({ message: "Order not found in orders collection" });
       }
     } catch (error) {
       console.log("Error:", error);
@@ -292,8 +293,4 @@ const deleteOrder = asyncHandler(async (req, res) => {
   }
 });
 
-
-module.exports={newOrder,saveOrder,getOrders,deleteOrder};
-
-
-
+module.exports = { newOrder, saveOrder, getOrders, deleteOrder };
