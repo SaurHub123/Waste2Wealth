@@ -298,7 +298,7 @@ const deleteOrder = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "Booking not found" });
     }
 
-    if (user.otp === null) {
+    if (user.otp !== null) {
       return res.status(403).json({ message: "OTP not verified" });
     }
 
