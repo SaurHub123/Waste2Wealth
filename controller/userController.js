@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const sendMail = require("./sendMail");
-const { UserModel, BookingModel, OrderModel } = require("../models/userModel");
+const { UserModel, BookingModel, OrderModel, FormModel } = require("../models/userModel");
 
 function generateOTP() {
   const length = 6;
@@ -11,7 +11,7 @@ function generateOTP() {
   }
 
   return otp;
-}
+};
 
 async function updateUserAndOrderVerification(userId, bookingId) {
   try {
@@ -34,7 +34,7 @@ async function updateUserAndOrderVerification(userId, bookingId) {
     console.error("Error updating user and order verification:", error);
     throw error; // Handle the error as needed
   }
-}
+};
 
 
 
@@ -343,5 +343,29 @@ const deleteOrder = asyncHandler(async (req, res) => {
   }
 });
 
+const contactUs = asyncHandler(async(req,res)=>{
 
-module.exports = { newOrder, saveOrder, getOrders, deleteOrder,getOrderOtp };
+  const email = req.params.id;
+  const {phone,name,message}=req.body;
+
+  try {
+
+    const form = await FormModel.create({
+      _id:email,
+      phone:phone,
+      name:name,
+      message:message
+    });
+
+    console.log("form ",form);
+    res.status(201).json({message:"Response Saved Successfully "})
+    
+  } catch (error) {
+    console.log("Errro:",error);
+    res.status(500).json({message:"Response Not saved Successfully "})
+    
+  }
+
+});
+
+module.exports = { newOrder, saveOrder, getOrders, deleteOrder,getOrderOtp, contactUs };

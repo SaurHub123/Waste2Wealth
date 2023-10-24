@@ -61,6 +61,26 @@ const userSchema = new mongoose.Schema(
   // { colletion: "user_data" }
 );
 
+const formSchema = new mongoose.Schema({
+  _id:{
+    type:String,
+    required:true,
+  },
+  name:{
+    type:String,
+    required:true
+  },
+  phone:{
+    required:true,
+    unique:true,
+    type:String
+  },
+  message:{
+    type:String,
+    required:true
+  }
+});
+
 //Order Schema for After OTP verification Done
 const orderSchema = mongoose.Schema(
   {
@@ -96,9 +116,9 @@ const orderSchema = mongoose.Schema(
   // { colletion: "user_order" }
 );
 
-
+const FormModel = mongoose.model("Enquiery Form",formSchema);
 const UserModel = mongoose.model("User", userSchema);
-const BookingModel = mongoose.model("Booking", bookingSchema);
+const BookingModel = mongoose.model("Booking", bookingSchema); 
 const OrderModel = mongoose.model("Order", orderSchema);
 
-module.exports = { UserModel, BookingModel, OrderModel };
+module.exports = { UserModel, BookingModel, OrderModel, FormModel };
