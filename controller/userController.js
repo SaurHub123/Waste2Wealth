@@ -36,20 +36,9 @@ async function updateUserAndOrderVerification(userId, bookingId) {
   }
 }
 
-const newOrder = asyncHandler(async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const { location, date, hour, phone } = req.body;
 
-    // Check if the user exists
-    let user = await UserModel.findById(userId);
 
-    // Generate OTP and booking timestamp
-    const OTP = generateOTP();
-    const BOOKING = Date.now();
-
-    // Function to send an OTP confirmation email
-    const sendOTPConfirmationEmail = async () => {
+const sendOTPConfirmationEmail = async (userId,OTP) => {
       const subject = "OTP Confirmation Required for Your Waste2Wealth Order";
       const text = `Dear,
   
@@ -70,6 +59,22 @@ const newOrder = asyncHandler(async (req, res) => {
       await sendMail(userId, subject, text);
     };
 
+
+
+const newOrder = asyncHandler(async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { location, date, hour, phone } = req.body;
+
+    // Check if the user exists
+    let user = await UserModel.findById(userId);
+
+    // Generate OTP and booking timestamp
+    const OTP = generateOTP();
+    const BOOKING = Date.now();
+
+    // Function to send an OTP confirmation email
+    
     if (user) {
       // User exists, add the booking to the existing user
       const newBooking = {
@@ -86,13 +91,11 @@ const newOrder = asyncHandler(async (req, res) => {
       };
 
       console.log(user.bookings.push(newBooking));
-      // const filter = ;
-      // const update = ;
   
       const result = await UserModel.updateOne({ _id: userId}, { $set: { otp: OTP} });
 
       // Send OTP confirmation email
-      await sendOTPConfirmationEmail();
+      await sendOTPConfirmationEmail(userId,OTP);
 
       // Save the user with the new booking
       user = await user.save();
@@ -123,7 +126,7 @@ const newOrder = asyncHandler(async (req, res) => {
       console.log("New user created and booking added:", user);
       res.status(201).json({ message: "New user created and booking added", user_id: userId, booking_id: BOOKING  });
       // Send OTP confirmation email
-      await sendOTPConfirmationEmail();
+      await sendOTPConfirmationEmail(userId,OTP);
     }
   } catch (error) {
     console.error("Error:", error);
@@ -215,14 +218,59 @@ const saveOrder = asyncHandler(async (req, res) => {
   }
 });
 
+const getOrderOtp=asyncHandler(async(req,res)=>{
+  try {
+     const userId = req.params.id;
+
+    const user = await UserModel.findById(userId);
+    if (user) { //User Found 
+      const OTP=generateOTP();
+      const result = await UserModel.updateOne({_id:userId},{$set:{otp:OTP}});
+      console.log("Result of updateOne",result);
+      if(result.matchedCount==1)
+      {
+        sendOTPConfirmationEmail(userId,OTP);
+        res.status(200).json({message:`OTP Sent Succesfully to user ${userId}`});
+      }
+      else{
+        res.status(400).json({message:`OTP Can't Sent Succesfully to user ${userId}`}); 
+      }
+    } else {
+      console.log("User Doesn't Exist");
+      res.status(404).json({ message: "User Doesn't Exist" });
+    }
+    
+  } catch (error) {
+    console.log("Error:",error);
+    res.status(500).json({message:"Internal Sevrer error"})
+    
+  }
+
+});
+
 const getOrders = asyncHandler(async (req, res) => {
   try {
     const userId = req.params.id;
+    const otp=req.body;
 
     const user = await UserModel.findById(userId);
 
-    if (user) {
+    if (user) { //User Found 
       console.log(user.bookings);
+      if(user.otp==otp){
+        console.log("Bookings :",user.bookings);
+        
+        const result = await UserModel.updateOne({_id:userId},{$set:{otp:null}});
+        // if(result.matchedCount==1)
+        
+        res.status(200).json({ message: user.bookings });
+        
+      }
+      else{
+        console.log("OTP Doesn't Match");
+      res.status(404).json({ message: "OTP Doesn't Match" });
+
+      }
       res.status(200).json({ message: user.bookings });
     } else {
       console.log("User Doesn't Exist");
@@ -237,8 +285,9 @@ const getOrders = asyncHandler(async (req, res) => {
 const deleteOrder = asyncHandler(async (req, res) => {
   try {
     const userId = req.params.id;
-    const { otp, booking_id } = req.body;
+    const {booking_id} = req.body;
     const orderid = userId + booking_id;
+    console.log("UserId",userId,"bookingId",booking_id,"orderId",orderid);
 
     const user = await UserModel.findOne({
       _id: userId,
@@ -246,51 +295,47 @@ const deleteOrder = asyncHandler(async (req, res) => {
     });
 
     if (!user) {
-      console.log("User Not Found");
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const bookingFound = user.bookings.find(
-      (booking) => booking.booking_id === booking_id
-    );
-
-    if (!bookingFound) {
-      console.log("Booking Not Found");
       return res.status(404).json({ message: "Booking not found" });
     }
 
-    try {
-      const orderDeletionResult = await OrderModel.deleteOne({ orderid });
+    if (user.otp === null) {
+      return res.status(403).json({ message: "OTP not verified" });
+    }
 
-      if (orderDeletionResult.deletedCount === 1) {
-        const userOrderDeletion = await UserModel.updateOne(
-          { _id: userId },
-          { $pull: { bookings: { booking_id: booking_id } } }
-        );
+    const bookingFound = user.bookings.find(
+      (booking) => booking.booking_id == booking_id
+    );
 
-        if (userOrderDeletion.nModified === 1) {
-          console.log("Order deleted successfully.");
-        } else {
-          console.log("Order not found in user bookings.");
-        }
+    if (!bookingFound) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
 
-        if (await updateUserAndOrderVerification(userId, booking_id)) {
-          res.status(204).json({ message: "Order deleted successfully" });
-        } else {
-          console.log("Unable to update OTP to null and booking to true");
-          res
-            .status(304)
-            .json({ message: "Unable to update order verification" });
-        }
+    const orderDeletionResult = await OrderModel.deleteOne({ _id:orderid });
+    console.log("OrderDelettion",orderDeletionResult);
+
+    if (orderDeletionResult.deletedCount === 1) {
+      const userOrderDeletion = await UserModel.updateOne(
+        { _id: userId },
+        { $pull: { bookings: { booking_id: booking_id } } }
+      );
+
+      if (userOrderDeletion.matchedCount === 1) {
+        return res.status(200).json({ message: "Order deleted successfully from User and Order" });
       } else {
-        console.log("Order not found in orders collection.");
-        res
-          .status(404)
-          .json({ message: "Order not found in orders collection" });
+        return res.status(403).json({ message: "Unable to delete from user order From User and Order" });
       }
-    } catch (error) {
-      console.log("Error:", error);
-      res.status(304).json({ message: "Unable to update order verification" });
+    } else {
+      const userOrderDeletion = await UserModel.updateOne(
+        { _id: userId },
+        { $pull: { bookings: { booking_id: booking_id } } }
+      );
+
+      if (userOrderDeletion.matchedCount === 1) {
+        return res.status(200).json({ message: "Order deleted successfully from User" });
+      } else {
+        return res.status(403).json({ message: "Unable to delete from user order From User" });
+      }
+      // return res.status(404).json({ message: "Order not found in orders collection" });
     }
   } catch (error) {
     console.error("Error:", error);
@@ -298,4 +343,5 @@ const deleteOrder = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { newOrder, saveOrder, getOrders, deleteOrder };
+
+module.exports = { newOrder, saveOrder, getOrders, deleteOrder,getOrderOtp };
