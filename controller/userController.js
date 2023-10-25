@@ -287,7 +287,7 @@ const getOrders = asyncHandler(async (req, res) => {
 const deleteOrder = asyncHandler(async (req, res) => {
   try {
     const userId = req.params.id;
-    const {booking_id} = req.body;
+    const booking_id = req.params.booking_id;
     const orderid = userId + booking_id;
     console.log("UserId",userId,"bookingId",booking_id,"orderId",orderid);
 
