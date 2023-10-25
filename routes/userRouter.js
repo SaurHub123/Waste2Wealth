@@ -6,7 +6,7 @@ const {newOrder,saveOrder,getOrders,deleteOrder,getOrderOtp, contactUs}=require(
 
 router.route("/:id").post(newOrder);
 router.route("/otp/:id").post(saveOrder);
-router.route("/orders/:id").get(getOrders);  
+router.route("/orders/:id").post(getOrders);  
 router.route("/delete/:id").delete(deleteOrder);
 router.route("/order/otp/:id").post(getOrderOtp);
 router.route("/contactUs/:id").post(contactUs);
