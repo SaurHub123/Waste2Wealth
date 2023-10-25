@@ -265,7 +265,7 @@ const getOrders = asyncHandler(async (req, res) => {
         const result = await UserModel.updateOne({_id:userId},{$set:{otp:null}});
         // if(result.matchedCount==1)
         
-        res.status(200).json({ message: user.bookings });
+        res.status(200).json({ data: user.bookings });
          
       }
       else{
