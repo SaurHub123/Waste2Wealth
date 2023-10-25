@@ -13,7 +13,7 @@ const app = express();
 //   optionSuccessStatus: 200,
 // };
 
-app.use(cors({origin:['http://localhost:3000','https://waste2wealth-umber.vercel.app/', 'http://127.0.0.1:3000',"*"]}));
+app.use(cors({origin:['http://localhost:3000','https://waste2wealth-umber.vercel.app', 'http://127.0.0.1:3000',"*"]}));
 
 // app.use(cors({origin:"*"}));
 
