@@ -251,7 +251,7 @@ const getOrderOtp=asyncHandler(async(req,res)=>{
 const getOrders = asyncHandler(async (req, res) => {
   try {
     const userId = req.params.id;
-    const otp=req.body;
+    const {otp}=req.body;
 
     const user = await UserModel.findById(userId);
 
