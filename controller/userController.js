@@ -257,6 +257,8 @@ const getOrders = asyncHandler(async (req, res) => {
 
     if (user) { //User Found 
       console.log(user.bookings);
+      console.log("user.otp=",user.otp);
+      console.log("otp=",otp);
       if(user.otp==otp){
         console.log("Bookings :",user.bookings);
         
