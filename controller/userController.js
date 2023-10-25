@@ -264,7 +264,7 @@ const getOrders = asyncHandler(async (req, res) => {
         // if(result.matchedCount==1)
         
         res.status(200).json({ message: user.bookings });
-        
+         const result = await UserModel.updateOne({_id:userId},{$set:{otp:null}});
       }
       else{
         console.log("OTP Doesn't Match");
