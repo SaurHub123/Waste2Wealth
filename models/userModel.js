@@ -7,11 +7,23 @@ const bookingSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    name:{
+      type:String,
+      required:true,
+    },
+    phone:{
+        type: Number,
+      required: true,
+    },
     otp: {
       type: Number,
       required: true,
     },
     location: {
+      type: String,
+      required: true,
+    },
+    landmark: {
       type: String,
       required: true,
     },
@@ -97,6 +109,10 @@ const orderSchema = mongoose.Schema(
       required: true,
     },
     location: {
+      type: String,
+      required: true,
+    },
+    landmark: {
       type: String,
       required: true,
     },
