@@ -64,7 +64,7 @@ const sendOTPConfirmationEmail = async (userId,OTP) => {
 const newOrder = asyncHandler(async (req, res) => {
   try {
     const userId = req.params.id;
-    const { location, date, hour, phone } = req.body;
+    const { location, date, hour, phone, landmark, name } = req.body;
 
     // Check if the user exists
     let user = await UserModel.findById(userId);
@@ -80,6 +80,9 @@ const newOrder = asyncHandler(async (req, res) => {
       const newBooking = {
         booking_id: BOOKING,
         otp: OTP,
+        name,
+        landmark,
+        phone,
         location,
         date: new Date(date),
         verify: false,
@@ -111,10 +114,13 @@ const newOrder = asyncHandler(async (req, res) => {
           {
             booking_id: BOOKING,
             otp: OTP,
+            name,
+            landmark,
+            phone,
             location,
             date: new Date(date),
-            hour,
             verify: false,
+            hour,
             picked: false,
             vendor: null,
             vendor_id: null,
@@ -175,6 +181,7 @@ const saveOrder = asyncHandler(async (req, res) => {
         _id: orderid,
         booking_id,
         phone: user.phone,
+        landmark:  bookingFound.landmark,
         location: bookingFound.location,
         date: bookingFound.date,
         hour: bookingFound.hour,
