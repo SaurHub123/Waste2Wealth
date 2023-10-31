@@ -66,6 +66,8 @@ const newOrder = asyncHandler(async (req, res) => {
     const userId = req.params.id;
     const { location, date, hour, phone, landmark, name } = req.body;
 
+    console.log("Data",location, date, hour, phone, landmark, name);
+
     // Check if the user exists
     let user = await UserModel.findById(userId);
 
