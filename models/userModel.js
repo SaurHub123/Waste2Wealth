@@ -15,6 +15,7 @@ const bookingSchema = new mongoose.Schema(
     phone:{
         type: Number,
       required: true,
+      default:7261854534,
     },
     otp: {
       type: Number,
