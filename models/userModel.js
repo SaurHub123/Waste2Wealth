@@ -10,6 +10,7 @@ const bookingSchema = new mongoose.Schema(
     name:{
       type:String,
       required:true,
+      default:"Saurabh Kumar",
     },
     phone:{
         type: Number,
@@ -26,6 +27,7 @@ const bookingSchema = new mongoose.Schema(
     landmark: {
       type: String,
       required: true,
+      default:"Gharuan, Kharar SAS Nagar Mohali Punjab India",
     },
     date: {
       type: Date,
@@ -80,7 +82,7 @@ const formSchema = new mongoose.Schema({
   },
   name:{
     type:String,
-    required:true
+    required:true,
   },
   phone:{
     required:true,
