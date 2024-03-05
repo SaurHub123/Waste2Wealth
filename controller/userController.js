@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const sendMail = require("./sendMail");
+const crypto = require("crypto");
 const { UserModel, BookingModel, OrderModel, FormModel } = require("../models/userModel");
 
 function generateOTP() {
@@ -59,6 +60,47 @@ const sendOTPConfirmationEmail = async (userId,OTP) => {
       await sendMail(userId, subject, text);
     };
 
+
+const verifyUser = asyncHandler(
+      async (req,res)=>{
+        const email = req.params.id;
+        const Otp = crypto.randomInt(100000,999999);
+        const subject = "OTP Verification for Campus-Swap";
+        const text = `
+        Dear,
+
+We hope this message finds you well. To confirm your recent order and ensure its security, we kindly request your assistance in verifying your transaction. Please enter the OTP (One-Time Password) below to complete the order confirmation process:
+
+OTP: ${Otp}
+
+This additional security step is in place to protect your account and order information. If you encounter any issues or have any questions, please don't hesitate to contact our support team at Support@Waste2Wealth.in.
+
+Thank you for choosing Campus-Swap for your sustainable solutions.
+
+Best regards,
+
+The Campus-Swap Team
+Powered By Waste2Wealth`;
+
+try {
+
+  await sendMail(email,subject,text);
+  res.status(200).json({
+    message:"OTP Send Successfullt",
+    OTP:Otp,
+
+  })
+  
+} catch (error) {
+
+    console.log(error);
+    res.status(500).json({
+      message:"Internal Server Error",
+    })
+    
+  }
+
+   });
 
 
 const newOrder = asyncHandler(async (req, res) => {
@@ -379,4 +421,4 @@ const contactUs = asyncHandler(async(req,res)=>{
 
 });
 
-module.exports = { newOrder, saveOrder, getOrders, deleteOrder,getOrderOtp, contactUs };
+module.exports = { newOrder, saveOrder, getOrders, deleteOrder,getOrderOtp, contactUs, verifyUser };
