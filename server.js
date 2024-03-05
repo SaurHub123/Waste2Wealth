@@ -3,6 +3,7 @@ const dotenv = require("dotenv").config();
 const express = require("express");
 const SendMail = require("./controller/sendMail");
 const errorHandler = require("./middleWare/errorHandler");
+const compressionHandler = require("./middleWare/compressionHandler");
 const cors = require("cors");
 
 const app = express();
@@ -28,7 +29,7 @@ const port = process.env.PORT || 5003;
 app.use(express.json());
 app.use("/api/user", require("./routes/userRouter"));
 app.use(errorHandler);
-
+app.use(compressionHandler);
 app.listen(port, () => {
   console.log(`Im inside  port at ${port}`);
 });
