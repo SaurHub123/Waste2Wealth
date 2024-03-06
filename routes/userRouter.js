@@ -10,6 +10,6 @@ router.route("/orders/:id").post(getOrders);
 router.route("/delete/:id/:booking_id").delete(deleteOrder);
 router.route("/order/otp/:id").post(getOrderOtp);
 router.route("/contactUs/:id").post(contactUs);
-router.route("/verifyUser/:id").post(verifyUser);
+router.route("/verifyUser/:id").get(verifyUser);
 
 module.exports=router;
