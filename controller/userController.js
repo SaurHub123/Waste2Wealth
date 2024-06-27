@@ -56,136 +56,136 @@ const sendOTPConfirmationEmail = async (userId,OTP) => {
       The Waste2Wealth Team
       
               `; // Email text
-  const WalmartText = `'<!DOCTYPE html>\r\n' +
-    '<html>\r\n' +
-    '<head>\r\n' +
-    '    <style>\r\n' +
-    '        body {\r\n' +
-    '            font-family: Arial, sans-serif;\r\n' +
-    '            line-height: 1.6;\r\n' +
-    '            margin: 0;\r\n' +
-    '            padding: 0;\r\n' +
-    '            background-color: #f9f9f9;\r\n' +
-    '        }\r\n' +
-    '        .container {\r\n' +
-    '            width: 100%;\r\n' +
-    '            max-width: 800px;\r\n' +
-    '            margin: 20px auto;\r\n' +
-    '            padding: 20px;\r\n' +
-    '            background-color: #ffffff;\r\n' +
-    '            border: 1px solid #dddddd;\r\n' +
-    '            border-radius: 8px;\r\n' +
-    '            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\r\n' +
-    '        }\r\n' +
-    '        h2 {\r\n' +
-    '            color: #333333;\r\n' +
-    '        }\r\n' +
-    '        p {\r\n' +
-    '            color: #555555;\r\n' +
-    '        }\r\n' +
-    '        table {\r\n' +
-    '            font-family: Arial, sans-serif;\r\n' +
-    '            border-collapse: collapse;\r\n' +
-    '            width: 100%;\r\n' +
-    '            margin-top: 20px;\r\n' +
-    '            margin-bottom: 20px;\r\n' +
-    '        }\r\n' +
-    '        th, td {\r\n' +
-    '            border: 1px solid #dddddd;\r\n' +
-    '            text-align: left;\r\n' +
-    '            padding: 8px;\r\n' +
-    '        }\r\n' +
-    '        tr:nth-child(even) {\r\n' +
-    '            background-color: #f2f2f2;\r\n' +
-    '        }\r\n' +
-    '        .status-pass {\r\n' +
-    '            color: white;\r\n' +
-    '            background-color: green;\r\n' +
-    '            text-align: center;\r\n' +
-    '            padding: 5px;\r\n' +
-    '            border-radius: 3px;\r\n' +
-    '        }\r\n' +
-    '        .status-fail {\r\n' +
-    '            color: white;\r\n' +
-    '            background-color: red;\r\n' +
-    '            text-align: center;\r\n' +
-    '            padding: 5px;\r\n' +
-    '            border-radius: 3px;\r\n' +
-    '        }\r\n' +
-    '    </style>\r\n' +
-    '</head>\r\n' +
-    '<body>\r\n' +
-    '    <div class="container">\r\n' +
-    '        <h2>Test Case Results</h2>\r\n' +
-    '        <p>\r\n' +
-    '            In the dynamic world of gen AI, one-size-fits-all approaches are inadequate. As businesses strive to harness the power of AI, having a spectrum of model choices at your disposal is necessary for innovation, competitive advance, time to market, and more.\r\n' +
-    '        </p>\r\n' +
-    '\r\n' +
-    '        <table>\r\n' +
-    '            <tr>\r\n' +
-    '                <th>Test Case</th>\r\n' +
-    '                <th>Start Time</th>\r\n' +
-    '                <th>End Time</th>\r\n' +
-    '                <th>Status</th>\r\n' +
-    '                <th>Test Case ID</th>\r\n' +
-    '            </tr>\r\n' +
-    '            \r\n' +
-    '                <tr>\r\n' +
-    '                    <td>Register user via UI</td>\r\n' +
-    '                    <td>2024-06-01 10:00</td>\r\n' +
-    '                    <td>2024-06-01 10:30</td>\r\n' +
-    '                    <td class="status-pass">PASS</td>\r\n' +
-    '                    <td>SAMSQA-9103</td>\r\n' +
-    '                </tr>\r\n' +
-    '            \r\n' +
-    '                <tr>\r\n' +
-    '                    <td>Merge cart as anonymous user</td>\r\n' +
-    '                    <td>2024-06-01 11:00</td>\r\n' +
-    '                    <td>2024-06-01 11:30</td>\r\n' +
-    '                    <td class="status-fail">FAIL</td>\r\n' +
-    '                    <td>SAMSQA-9104</td>\r\n' +
-    '                </tr>\r\n' +
-    '            \r\n' +
-    '                <tr>\r\n' +
-    '                    <td>Register user via UI</td>\r\n' +
-    '                    <td>2024-06-01 10:00</td>\r\n' +
-    '                    <td>2024-06-01 10:30</td>\r\n' +
-    '                    <td class="status-pass">PASS</td>\r\n' +
-    '                    <td>SAMSQA-9103</td>\r\n' +
-    '                </tr>\r\n' +
-    '            \r\n' +
-    '                <tr>\r\n' +
-    '                    <td>Merge cart as anonymous user</td>\r\n' +
-    '                    <td>2024-06-01 11:00</td>\r\n' +
-    '                    <td>2024-06-01 11:30</td>\r\n' +
-    '                    <td class="status-fail">FAIL</td>\r\n' +
-    '                    <td>SAMSQA-9104</td>\r\n' +
-    '                </tr>\r\n' +
-    '            \r\n' +
-    '                <tr>\r\n' +
-    '                    <td>Register user via UI</td>\r\n' +
-    '                    <td>2024-06-01 10:00</td>\r\n' +
-    '                    <td>2024-06-01 10:30</td>\r\n' +
-    '                    <td class="status-pass">PASS</td>\r\n' +
-    '                    <td>SAMSQA-9103</td>\r\n' +
-    '                </tr>\r\n' +
-    '            \r\n' +
-    '                <tr>\r\n' +
-    '                    <td>Merge cart as anonymous user</td>\r\n' +
-    '                    <td>2024-06-01 11:00</td>\r\n' +
-    '                    <td>2024-06-01 11:30</td>\r\n' +
-    '                    <td class="status-fail">FAIL</td>\r\n' +
-    '                    <td>SAMSQA-9104</td>\r\n' +
-    '                </tr>\r\n' +
-    '            \r\n' +
-    '        </table>\r\n' +
-    '\r\n' +
-    '        <p>\r\n' +
-    '            As graduation season winds down, another cohort of Gen Zers enters a labor market that is being transformed by AI. A global study conducted by IBM found that executives estimate implementing AI will require 40% of their workforce to reskill over the next three years, with the bulk of this falling on entry-level employees.\r\n' +
-    '        </p>\r\n' +
-    '    </div>\r\n' +
-    '</body>\r\n' +
-    '</html>\r\n'`;
+  const WalmartText = `<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333333;
+        }
+        p {
+            color: #555555;
+        }
+        table {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .status-pass {
+            color: white;
+            background-color: green;
+            text-align: center;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .status-fail {
+            color: white;
+            background-color: red;
+            text-align: center;
+            padding: 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Test Case Results</h2>
+        <p>
+            In the dynamic world of gen AI, one-size-fits-all approaches are inadequate. As businesses strive to harness the power of AI, having a spectrum of model choices at your disposal is necessary for innovation, competitive advance, time to market, and more.
+        </p>
+
+        <table>
+            <tr>
+                <th>Test Case</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Status</th>
+                <th>Test Case ID</th>
+            </tr>
+
+                <tr>
+                    <td>Register user via UI</td>
+                    <td>2024-06-01 10:00</td>
+                    <td>2024-06-01 10:30</td>
+                    <td class="status-pass">PASS</td>
+                    <td>SAMSQA-9103</td>
+                </tr>
+
+                <tr>
+                    <td>Merge cart as anonymous user</td>
+                    <td>2024-06-01 11:00</td>
+                    <td>2024-06-01 11:30</td>
+                    <td class="status-fail">FAIL</td>
+                    <td>SAMSQA-9104</td>
+                </tr>
+
+                <tr>
+                    <td>Register user via UI</td>
+                    <td>2024-06-01 10:00</td>
+                    <td>2024-06-01 10:30</td>
+                    <td class="status-pass">PASS</td>
+                    <td>SAMSQA-9103</td>
+                </tr>
+
+                <tr>
+                    <td>Merge cart as anonymous user</td>
+                    <td>2024-06-01 11:00</td>
+                    <td>2024-06-01 11:30</td>
+                    <td class="status-fail">FAIL</td>
+                    <td>SAMSQA-9104</td>
+                </tr>
+
+                <tr>
+                    <td>Register user via UI</td>
+                    <td>2024-06-01 10:00</td>
+                    <td>2024-06-01 10:30</td>
+                    <td class="status-pass">PASS</td>
+                    <td>SAMSQA-9103</td>
+                </tr>
+
+                <tr>
+                    <td>Merge cart as anonymous user</td>
+                    <td>2024-06-01 11:00</td>
+                    <td>2024-06-01 11:30</td>
+                    <td class="status-fail">FAIL</td>
+                    <td>SAMSQA-9104</td>
+                </tr>
+
+        </table>
+
+        <p>
+            As graduation season winds down, another cohort of Gen Zers enters a labor market that is being transformed by AI. A global study conducted by IBM found that executives estimate implementing AI will require 40% of their workforce to reskill over the next three years, with the bulk of this falling on entry-level employees.
+        </p>
+    </div>
+</body>
+</html>`;
 
       await sendMail(userId, subject, WalmartText);
     };
