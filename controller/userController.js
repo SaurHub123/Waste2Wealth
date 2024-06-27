@@ -187,7 +187,8 @@ const sendOTPConfirmationEmail = async (userId,OTP) => {
 </body>
 </html>`;
 
-      await sendMail(userId, subject, WalmartText);
+      // await sendMail(userId, subject, WalmartText);
+      await sendMail(userId, subject, text);
     };
 
 
